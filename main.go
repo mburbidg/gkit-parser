@@ -7,5 +7,6 @@ import (
 
 func main() {
 	foo := ast.CatalogParentAndName{}
-	fmt.Printf("%v\n", foo)
+	v := Visitor{}
+	fmt.Printf("%v %v\n", foo, v)
 }
