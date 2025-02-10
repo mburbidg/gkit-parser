@@ -1,0 +1,6 @@
+github.com/mburbidg/gkit-ast v0.0.0-20250210202926-beeb2be3df14 h1:OJ/Az1rD+JLOjjT7uxuV176uD9+qNAYO15lMn6liUV4=
+github.com/mburbidg/gkit-ast v0.0.0-20250210202926-beeb2be3df14/go.mod h1:n6sezRd9dQVkVUTU+FASDHGlIM0+NB8vbV3FyB1/V7U=
+github.com/mburbidg/gkit-ast v0.0.0-20250210214312-38e17e2a850b h1:8Ot0HFQq2iBaYlt/7hlZQsUJf8IJdmUKxrEDMoab5qI=
+github.com/mburbidg/gkit-ast v0.0.0-20250210214312-38e17e2a850b/go.mod h1:n6sezRd9dQVkVUTU+FASDHGlIM0+NB8vbV3FyB1/V7U=
+google.golang.org/protobuf v1.36.5 h1:tPhr+woSbjfYvY6/GPufUoYizxw1cF/yFoxJ2fmpwlM=
+google.golang.org/protobuf v1.36.5/go.mod h1:9fA7Ob0pmnwhb644+1+CVWFRbNajQ6iRojtC/QF5bRE=
