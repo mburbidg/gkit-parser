@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/antlr4-go/antlr/v4"
+	"github.com/mburbidg/gkit-ast/go/ast"
 	"github.com/mburbidg/gkit-parser/gen"
 )
 
@@ -33,23 +34,51 @@ func (v Visitor) VisitErrorNode(node antlr.ErrorNode) interface{} {
 }
 
 func (v Visitor) VisitGqlProgram(ctx *gen.GqlProgramContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	pgm := new(ast.Program)
+	if ctx.ProgramActivity() != nil {
+		pgm.SetProgramActivity(ctx.ProgramActivity().Accept(v).(*ast.ProgramActivity))
+	}
+	if ctx.SessionCloseCommand() != nil {
+		pgm.SetSessionCloseCommand(ctx.SessionCloseCommand().Accept(v).(*ast.SessionCloseCommand))
+	}
+	return pgm
 }
 
 func (v Visitor) VisitProgramActivity(ctx *gen.ProgramActivityContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	activity := new(ast.ProgramActivity)
+	if ctx.SessionActivity() != nil {
+		activity.SetSessionActivity(ctx.SessionActivity().Accept(v).(*ast.SessionActivity))
+	} else {
+		activity.SetTransactionActivity(ctx.TransactionActivity().Accept(v).(*ast.TransactionActivity))
+	}
+	return activity
 }
 
 func (v Visitor) VisitSessionActivity(ctx *gen.SessionActivityContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	activity := new(ast.SessionActivity)
+	setCmds := make([]*ast.SessionSetCommand, 0)
+	for _, cmd := range ctx.AllSessionSetCommand() {
+		setCmds = append(setCmds, cmd.Accept(v).(*ast.SessionSetCommand))
+	}
+	activity.SetSessionSetCommands(setCmds)
+	resetCmds := make([]*ast.SessionResetCommand, 0)
+	for _, cmd := range ctx.AllSessionResetCommand() {
+		resetCmds = append(resetCmds, cmd.Accept(v).(*ast.SessionResetCommand))
+	}
+	activity.SetSessionResetCommands(resetCmds)
+	return activity
 }
 
 func (v Visitor) VisitTransactionActivity(ctx *gen.TransactionActivityContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	activity := new(ast.TransactionActivity)
+	if ctx.StartTransactionCommand() != nil {
+		activity.SetStartTransactionCommand(ctx.StartTransactionCommand().Accept(v).(*ast.StartTransactionCommand))
+	}
+	activity.SetProcedureSpecification(ctx.ProcedureSpecification().Accept(v).(*ast.ProcedureSpecification))
+	if ctx.EndTransactionCommand() != nil {
+		activity.SetEndTransactionCommand(ctx.EndTransactionCommand().Accept(v).(*ast.EndTransactionCommand))
+	}
+	return activity
 }
 
 func (v Visitor) VisitEndTransactionCommand(ctx *gen.EndTransactionCommandContext) interface{} {
@@ -118,8 +147,7 @@ func (v Visitor) VisitSessionResetArguments(ctx *gen.SessionResetArgumentsContex
 }
 
 func (v Visitor) VisitSessionCloseCommand(ctx *gen.SessionCloseCommandContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	return new(ast.SessionCloseCommand)
 }
 
 func (v Visitor) VisitSessionParameterSpecification(ctx *gen.SessionParameterSpecificationContext) interface{} {
@@ -163,8 +191,9 @@ func (v Visitor) VisitNestedProcedureSpecification(ctx *gen.NestedProcedureSpeci
 }
 
 func (v Visitor) VisitProcedureSpecification(ctx *gen.ProcedureSpecificationContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	spec := new(ast.ProcedureSpecification)
+	spec.SetProcedureBody(ctx.ProcedureBody().Accept(v).(*ast.ProcedureBody))
+	return spec
 }
 
 func (v Visitor) VisitNestedDataModifyingProcedureSpecification(ctx *gen.NestedDataModifyingProcedureSpecificationContext) interface{} {
@@ -178,8 +207,13 @@ func (v Visitor) VisitNestedQuerySpecification(ctx *gen.NestedQuerySpecification
 }
 
 func (v Visitor) VisitProcedureBody(ctx *gen.ProcedureBodyContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	body := new(ast.ProcedureBody)
+	if ctx.AtSchemaClause() != nil {
+	}
+	if ctx.BindingVariableDefinitionBlock() != nil {
+	}
+	body.SetStatements(ctx.StatementBlock().Accept(v).([]*ast.Statement))
+	return body
 }
 
 func (v Visitor) VisitBindingVariableDefinitionBlock(ctx *gen.BindingVariableDefinitionBlockContext) interface{} {

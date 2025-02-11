@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/antlr4-go/antlr/v4 v4.13.1
-	github.com/mburbidg/gkit-ast v0.0.7
+	github.com/mburbidg/gkit-ast v0.1.2
 )
 
 require (
